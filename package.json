@@ -1,0 +1,13 @@
+{
+    "name": "undefined.io",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "cd undefined-server && node app.js",
+        "dev": "cd undefined-spa && npm start",
+        "test": "cd undefined-spa && npm test",
+        "preinstall": "cd undefined-server && npm install",
+        "install": "cd undefined-spa && npm install",
+        "build": "cd undefined-spa && npm run build"
+    }
+}
