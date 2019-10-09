@@ -1,15 +1,18 @@
 import './Question.scss';
 
 import { RouteComponentProps } from '@reach/router';
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { AnswerModel, QuestionModel } from '../App';
+import { AnswerModel } from '../models/answer.model';
+import { QuestionModel } from '../models/question.model';
+import PostAnswer from '../PostAnswer/PostAnswer';
 
-export interface QuestionProps extends RouteComponentProps<{ id: string }> {
+interface QuestionProps extends RouteComponentProps<{ id: string }> {
     getQuestion: Function;
+    postAnswer: Function;
 }
 
-export interface QuestionState {
+interface QuestionState {
     question: QuestionModel;
 }
 
@@ -25,38 +28,46 @@ export default class Question extends React.Component<
     }
 
     render() {
-        const answers = this.state.question.answers
-            ? this.state.question.answers.map((answer: AnswerModel) => {
-                  return (
-                      <article className="answer" key={answer.id}>
-                          <h3>
-                              {answer.nickname}
-                              <span className="answer__created-at">
-                                  {new Date(
-                                      answer.createdAt
-                                  ).toLocaleDateString()}
-                              </span>
-                          </h3>
-                          <p>{answer.content}</p>
-                      </article>
-                  );
-              })
-            : [];
+        let answers: JSX.Element[] = [];
+
+        if (this.state.question.answers) {
+            answers = this.state.question.answers.map((answer: AnswerModel) => {
+                return (
+                    <article className="answer" key={answer.id}>
+                        <h3>
+                            Anon
+                            <span className="answer__created-at">
+                                {new Date(
+                                    answer.createdAt
+                                ).toLocaleDateString()}
+                            </span>
+                        </h3>
+                        <p>{answer.content}</p>
+                    </article>
+                );
+            });
+        }
 
         return (
             <article>
                 {this.state.question ? (
-                    <Fragment>
+                    <React.Fragment>
                         <h1>{this.state.question.title}</h1>
                         <p>{this.state.question.content}</p>
                         <hr></hr>
                         <h2>Answers</h2>
+                        <PostAnswer
+                            questionId={this.state.question.id}
+                            postAnswer={(questionId: string, content: string) =>
+                                this.props.postAnswer(questionId, content)
+                            }
+                        />
                         {answers}
-                    </Fragment>
+                    </React.Fragment>
                 ) : (
-                    <Fragment>
+                    <React.Fragment>
                         <p>Question wasn't found</p>
-                    </Fragment>
+                    </React.Fragment>
                 )}
             </article>
         );

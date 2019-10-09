@@ -3,11 +3,11 @@ import './AskQuestion.scss';
 import { RouteComponentProps } from '@reach/router';
 import React, { ChangeEvent, FormEvent } from 'react';
 
-export interface AskQuestionProps extends RouteComponentProps {
+interface AskQuestionProps extends RouteComponentProps {
     postQuestion: Function;
 }
 
-export interface AskQuestionState {
+interface AskQuestionState {
     title: string;
     content: string;
     message: string;

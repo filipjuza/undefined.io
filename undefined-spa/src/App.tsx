@@ -1,27 +1,15 @@
 import './App.scss';
 
 import { Link, Router } from '@reach/router';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import AskQuestion from './AskQuestion/AskQuestion';
+import { AnswerModel } from './models/answer.model';
+import { QuestionModel } from './models/question.model';
 import Question from './Question/Question';
 import Questions from './Questions/Questions';
 
-export interface AnswerModel {
-    id: string;
-    createdAt: number;
-    content: string;
-    nickname?: string;
-}
-
-export interface QuestionModel {
-    id: string;
-    title: string;
-    content: string;
-    answers?: AnswerModel[];
-}
-
-export interface AppState {
+interface AppState {
     questions: QuestionModel[];
 }
 
@@ -38,7 +26,6 @@ export default class App extends React.Component<any, AppState> {
                         {
                             id: '98ad7ca9ds8c7',
                             createdAt: new Date().valueOf(),
-                            nickname: 'legituser64',
                             content: `That's a great question`
                         }
                     ]
@@ -69,17 +56,36 @@ export default class App extends React.Component<any, AppState> {
         const newQuestion: QuestionModel = {
             id: `${Math.random() * 10000000000000000}`,
             title,
-            content
+            content,
+            answers: []
         };
 
-        this.setState({
-            questions: [...this.state.questions, newQuestion]
+        this.setState(state => {
+            return { questions: [...state.questions, newQuestion] };
+        });
+    }
+
+    postAnswer(questionId: string, content: string) {
+        const newAnswer: AnswerModel = {
+            id: `${Math.random() * 10000000000000000}`,
+            content,
+            createdAt: new Date().valueOf()
+        };
+
+        this.setState(state => {
+            const question = state.questions.find(q => q.id === questionId);
+
+            if (question) {
+                question.answers.push(newAnswer);
+            }
+
+            return state;
         });
     }
 
     render() {
         return (
-            <Fragment>
+            <React.Fragment>
                 <h1>undefined.io</h1>
                 <nav>
                     <Link to="/">Questions</Link>
@@ -91,6 +97,9 @@ export default class App extends React.Component<any, AppState> {
                     <Question
                         path="/question/:id"
                         getQuestion={(id: string) => this.getQuestion(id)}
+                        postAnswer={(questionId: string, content: string) =>
+                            this.postAnswer(questionId, content)
+                        }
                     />
                     <AskQuestion
                         path="/ask-question"
@@ -99,7 +108,7 @@ export default class App extends React.Component<any, AppState> {
                         }
                     />
                 </Router>
-            </Fragment>
+            </React.Fragment>
         );
     }
 }

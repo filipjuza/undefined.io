@@ -3,9 +3,9 @@ import './Questions.scss';
 import { Link, RouteComponentProps } from '@reach/router';
 import React, { Fragment } from 'react';
 
-import { QuestionModel } from '../App';
+import { QuestionModel } from '../models/question.model';
 
-export interface QuestionsProps extends RouteComponentProps {
+interface QuestionsProps extends RouteComponentProps {
     questions: QuestionModel[];
 }
 
