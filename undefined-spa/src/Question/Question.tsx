@@ -10,6 +10,7 @@ import PostAnswer from '../PostAnswer/PostAnswer';
 interface QuestionProps extends RouteComponentProps<{ id: string }> {
     getQuestion: Function;
     postAnswer: Function;
+    handleVote: Function;
 }
 
 interface QuestionState {
@@ -42,7 +43,21 @@ export default class Question extends React.Component<
                                 ).toLocaleDateString()}
                             </span>
                         </h3>
-                        <p>{answer.content}</p>
+                        <div className="answer__body">
+                            <div className="vote">
+                                <button
+                                    className="vote__up"
+                                    onClick={() => {
+                                        this.props.handleVote('up');
+                                    }}
+                                >
+                                    &uarr;
+                                </button>
+                                <button className="vote__down">&darr;</button>
+                                <span className="vote__count">0</span>
+                            </div>
+                            <p>{answer.content}</p>
+                        </div>
                     </article>
                 );
             });

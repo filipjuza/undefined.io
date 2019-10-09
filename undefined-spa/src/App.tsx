@@ -6,6 +6,7 @@ import React from 'react';
 import AskQuestion from './AskQuestion/AskQuestion';
 import { AnswerModel } from './models/answer.model';
 import { QuestionModel } from './models/question.model';
+import { VoteDirection } from './models/types.model';
 import Question from './Question/Question';
 import Questions from './Questions/Questions';
 
@@ -26,7 +27,8 @@ export default class App extends React.Component<any, AppState> {
                         {
                             id: '98ad7ca9ds8c7',
                             createdAt: new Date().valueOf(),
-                            content: `That's a great question`
+                            content: `That's a great question`,
+                            votes: 0
                         }
                     ]
                 },
@@ -69,7 +71,8 @@ export default class App extends React.Component<any, AppState> {
         const newAnswer: AnswerModel = {
             id: `${Math.random() * 10000000000000000}`,
             content,
-            createdAt: new Date().valueOf()
+            createdAt: new Date().valueOf(),
+            votes: 0
         };
 
         this.setState(state => {
@@ -77,6 +80,26 @@ export default class App extends React.Component<any, AppState> {
 
             if (question) {
                 question.answers.push(newAnswer);
+            }
+
+            return state;
+        });
+    }
+
+    handleVote(
+        direction: VoteDirection,
+        questionId: string,
+        answerId: string
+    ): void {
+        this.setState(state => {
+            const question = state.questions.find(q => q.id === questionId);
+            const answer = question
+                ? question.answers.find(a => a.id === answerId)
+                : null;
+
+            if (answer) {
+                answer.votes =
+                    direction === 'up' ? answer.votes + 1 : answer.votes - 1;
             }
 
             return state;
@@ -100,6 +123,13 @@ export default class App extends React.Component<any, AppState> {
                         postAnswer={(questionId: string, content: string) =>
                             this.postAnswer(questionId, content)
                         }
+                        handleVote={(
+                            direction: VoteDirection,
+                            questionId: string,
+                            answerId: string
+                        ) => {
+                            this.handleVote(direction, questionId, answerId);
+                        }}
                     />
                     <AskQuestion
                         path="/ask-question"
