@@ -20,8 +20,5 @@
     "bugs": {
         "url": "https://gitlab.com/filip.juza/undefined.io/issues"
     },
-    "homepage": "https://gitlab.com/filip.juza/undefined.io#readme",
-    "eslintConfig": {
-        "extends": "react-app"
-    }
+    "homepage": "https://gitlab.com/filip.juza/undefined.io#readme"
 }
