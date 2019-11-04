@@ -1,0 +1,27 @@
+{
+    "name": "undefined.io",
+    "version": "1.0.0",
+    "description": "BAAA Frameworks Course, Q&A Website Mandatory Assignment 1, November 2019",
+    "private": true,
+    "scripts": {
+        "start": "cd server && npm start",
+        "dev": "cd client && npm start",
+        "test": "cd client && npm test",
+        "preinstall": "cd server && npm install",
+        "install": "cd client && npm install",
+        "build": "cd client && npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://filip.juza@gitlab.com/filip.juza/undefined.io.git"
+    },
+    "author": "Filip Juza (filip.juza@gmail.com, eaafiju@students.eaaa.dk)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://gitlab.com/filip.juza/undefined.io/issues"
+    },
+    "homepage": "https://gitlab.com/filip.juza/undefined.io#readme",
+    "eslintConfig": {
+        "extends": "react-app"
+    }
+}
