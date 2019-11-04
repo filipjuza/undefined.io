@@ -1,10 +1,10 @@
 module.exports = {
     env: {
-        browser: true,
         commonjs: true,
-        es6: true
+        es6: true,
+        node: true
     },
-    extends: ['airbnb-base'],
+    extends: ['airbnb-base', 'plugin:node/recommended'],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly'
@@ -12,5 +12,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2018
     },
-    rules: {}
+    rules: {
+        indent: ['error', 4]
+    }
 };
