@@ -1,7 +1,7 @@
 {
     "name": "server",
     "version": "0.0.0",
-    "private": true,
+    "main": "src/app.js",
     "scripts": {
         "start": "node src/app.js"
     },
@@ -18,5 +18,9 @@
         "eslint-config-airbnb-base": "^14.0.0",
         "eslint-plugin-import": "^2.18.2",
         "eslint-plugin-node": "^10.0.0"
+    },
+    "engines": {
+        "node": "12.13.0",
+        "npm": "6.12.0"
     }
 }

@@ -139,8 +139,6 @@ router.put('/:questionId/answer/:answerId/upvote', async (req, res) => {
 router.put('/:questionId/answer/:answerId/downvote', async (req, res) => {
     try {
         const answer = await AnswerModel.findById(req.params.answerId);
-        console.log(answer);
-        console.log(req.params.answerId);
 
         if (!answer) {
             res.status(404).send('Answer was not found.');
