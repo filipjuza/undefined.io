@@ -1,10 +1,16 @@
 const express = require('express');
 
 const router = express.Router();
+
+/**
+ * Mongoose models are defined in the `models` directory
+ */
 const QuestionModel = require('../models/question.model');
 const AnswerModel = require('../models/answer.model');
 
-// Get all questions
+/**
+ * Get all questions
+ */
 router.get('/', async (req, res) => {
     try {
         const questions = await QuestionModel.find({}).populate('answers');
@@ -16,7 +22,9 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get question by id
+/**
+ * Get question by id
+ */
 router.get('/:id', async (req, res) => {
     try {
         const question = await QuestionModel.findById(req.params.id);
@@ -27,6 +35,9 @@ router.get('/:id', async (req, res) => {
             res.json(question);
         }
     } catch (error) {
+        /**
+         * CastErrors are thrown when the resource id (_id) is in an incorrect format. We handle this case as a regular 404.
+         */
         if (error.name === 'CastError') {
             res.status(404).send('Question was not found.');
         } else {
@@ -35,7 +46,9 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Create question
+/**
+ * Create question
+ */
 router.post('/', async (req, res) => {
     try {
         const question = new QuestionModel({
@@ -50,7 +63,9 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Get all answers to a question
+/**
+ * Get all answers to a question
+ */
 router.get('/:questionId/answer', async (req, res) => {
     try {
         const answers = await AnswerModel.find({ question: req.params.questionId });
@@ -65,7 +80,9 @@ router.get('/:questionId/answer', async (req, res) => {
     }
 });
 
-// Create answer
+/**
+ * Create answer
+ */
 router.post('/:questionId/answer', async (req, res) => {
     const { questionId } = req.params;
 
@@ -77,6 +94,7 @@ router.post('/:questionId/answer', async (req, res) => {
         } else {
             const answer = new AnswerModel({ content: req.body.content });
 
+            answer.createdAt = new Date().valueOf();
             answer.question = questionId;
             answer.votes = 0;
 
@@ -91,7 +109,9 @@ router.post('/:questionId/answer', async (req, res) => {
     }
 });
 
-// Upvote answer
+/**
+ * Upvote answer
+ */
 router.put('/:questionId/answer/:answerId/upvote', async (req, res) => {
     try {
         const answer = await AnswerModel.findById(req.params.answerId);
@@ -113,7 +133,9 @@ router.put('/:questionId/answer/:answerId/upvote', async (req, res) => {
     }
 });
 
-// Downvote answer
+/**
+ * Downvote answer
+ */
 router.put('/:questionId/answer/:answerId/downvote', async (req, res) => {
     try {
         const answer = await AnswerModel.findById(req.params.answerId);

@@ -7,10 +7,14 @@ const mongoose = require('mongoose');
 // Custom modules
 const utils = require('./utils');
 
-// Routes
+/**
+ * Routes are defined in separate files in the `/routes` directory for better organization. Ideally, the `questionRouter` woul be split
+ * in two (`questionRouter`, `answerRouter`). The idea is to have one router per resource (so for example `user` would get it's own
+ * `userRouter`)
+ */
 const questionRouter = require('./routes/question');
 
-const port = utils.normalizePort(process.env.port || '3000');
+const port = utils.normalizePort(process.env.port || '4000');
 const databaseUrl = process.env.MONGO_URL || 'mongodb://localhost/undefined_io';
 const app = express();
 
@@ -20,27 +24,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '..', 'client/build')));
 
+// Question & Answer routes
 app.use('/api/question', questionRouter);
 
-// app.use((err, req, res) => {
-//     console.error(err.message);
-
-//     if (!err.statusCode) {
-//         // eslint-disable-next-line no-param-reassign
-//         err.statusCode = 500;
-//     }
-
-//     res.status(err.statusCode).send(err.message);
-// });
-
-// "Redirect" all get requests (except for the routes specified above) to React's entry point (index.html) to be handled by Reach router
-// It's important to specify this route as the very last one to prevent overriding all of the other routes
+/**
+ * Let non-api requests be handled by Reach router
+ */
 app.get('*', (req, res) => res.sendFile(path.resolve('..', 'client', 'build', 'index.html')));
 
+// Yoinked from https://github.com/kdorland/kittens_mern/blob/master/server/app.js
 mongoose
     .connect(databaseUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(async () => {
-        // await DAL.bootstrap();
         app.listen(port);
 
         console.log(`undefined.io server running on port ${port}`);
