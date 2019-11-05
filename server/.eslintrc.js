@@ -13,7 +13,11 @@ module.exports = {
         ecmaVersion: 2018
     },
     rules: {
-        indent: ['error', 4],
-        'max-len': ['warn', 140]
+        indent: ['warn', 4, { SwitchCase: 1 }],
+        'max-len': ['warn', 140],
+        quotes: ['error', 'single', { allowTemplateLiterals: true }],
+        'comma-dangle': ['error', 'never'],
+        'no-unused-vars': ['warn'],
+        'no-console': 'off'
     }
 };
