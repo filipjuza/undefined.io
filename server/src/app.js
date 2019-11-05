@@ -14,7 +14,7 @@ const utils = require('./utils');
  */
 const questionRouter = require('./routes/question');
 
-const port = utils.normalizePort(process.env.port || '4000');
+const port = utils.normalizePort(process.env.PORT || '4000');
 const databaseUrl = process.env.MONGO_URL || 'mongodb://localhost/undefined_io';
 const buildPath = path.resolve(__dirname, '..', '..', 'client', 'build');
 const app = express();
